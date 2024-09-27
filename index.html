@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menor's Web Client</title>
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #222;
+            color: #fff;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            overflow: hidden;
+        }
+        h1 {
+            margin-bottom: 20px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #808080, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            animation: wobble 2s infinite;
+        }
+        @keyframes wobble {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(2deg); }
+            50% { transform: rotate(-2deg); }
+            75% { transform: rotate(2deg); }
+            100% { transform: rotate(0deg); }
+        }
+        .menu-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+            border-radius: 15px;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+            animation: wobble 3s infinite;
+        }
+        button {
+            margin: 5px;
+            padding: 10px 15px;
+            font-size: 14px;
+            cursor: pointer;
+            border: none;
+            border-radius: 15px;
+            color: white;
+            background: linear-gradient(45deg, #6a5acd, #00bfff);
+            transition: background 0.3s, transform 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            text-shadow: 0 0 5px #fff, 0 0 10px #00bfff;
+        }
+        button:hover {
+            background: linear-gradient(45deg, #00bfff, #6a5acd);
+            transform: scale(1.05);
+        }
+        .navigation {
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Menor's Web Client</h1>
+    
+    <div id="menu1" class="menu-container">
+        <button onclick="openNewTab()">Open New Tab</button>
+        <button onclick="refreshPage()">Refresh Page</button>
+        <button onclick="changeBackgroundColor()">Change Background Color</button>
+        <button onclick="goBack()">Go Back</button>
+        <button onclick="goForward()">Go Forward</button>
+    </div>
+
+    <div id="menu2" class="menu-container">
+        <button onclick="changeTextSize()">Increase Text Size</button>
+        <button onclick="decreaseTextSize()">Decrease Text Size</button>
+        <button onclick="showAlert()">Show Alert</button>
+        <button onclick="toggleMenu()">Toggle Menu Visibility</button>
+        <button onclick="printPage()">Print Page</button>
+    </div>
+
+    <div id="menu3" class="menu-container">
+        <button onclick="copyToClipboard()">Copy URL to Clipboard</button>
+        <button onclick="openGoogle()">Open Google</button>
+        <button onclick="openYouTube()">Open YouTube</button>
+        <button onclick="openTwitter()">Open Twitter</button>
+        <button onclick="openFacebook()">Open Facebook</button>
+    </div>
+
+    <div id="menu4" class="menu-container">
+        <button onclick="openReddit()">Open Reddit</button>
+        <button onclick="displayDate()">Show Current Date</button>
+        <button onclick="displayTime()">Show Current Time</button>
+        <button onclick="hidePage()">Hide Page</button>
+        <button onclick="showPage()">Show Page</button>
+    </div>
+
+    <div id="menu5" class="menu-container">
+        <button onclick="alertUser()">Alert User</button>
+        <button onclick="setCookie()">Set Cookie</button>
+        <button onclick="getCookie()">Get Cookie</button>
+        <button onclick="deleteCookie()">Delete Cookie</button>
+        <button onclick="toggleDarkMode()">Toggle Dark Mode</button>
+    </div>
+
+    <div class="navigation">
+        <button onclick="showMenu(currentPage - 1)" id="prevButton">Previous Page</button>
+        <button onclick="showMenu(currentPage + 1)" id="nextButton">Next Page</button>
+    </div>
+
+    <script>
+        let textSize = 16;
+        let currentPage = 1;
+        const totalPages = 5;
+
+        function showMenu(menuNumber) {
+            if (menuNumber < 1 || menuNumber > totalPages) return;
+
+            // Hide all menus
+            document.querySelectorAll('.menu-container').forEach(menu => {
+                menu.style.display = 'none';
+            });
+            // Show the selected menu
+            document.getElementById(`menu${menuNumber}`).style.display = 'flex';
+            currentPage = menuNumber;
+
+            // Toggle visibility of the navigation buttons
+            document.getElementById('prevButton').style.display = currentPage === 1 ? 'none' : 'inline-block';
+            document.getElementById('nextButton').style.display = currentPage === totalPages ? 'none' : 'inline-block';
+        }
+
+        // Initial call to display the first menu
+        showMenu(1);
+
+        function openNewTab() {
+            window.open('https://www.example.com', '_blank');
+        }
+
+        function refreshPage() {
+            location.reload();
+        }
+
+        function changeBackgroundColor() {
+            const colors = ['#ff9999', '#99ff99', '#9999ff', '#ffff99', '#ffcc99'];
+            document.body.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        function goBack() {
+            window.history.back();
+        }
+
+        function goForward() {
+            window.history.forward();
+        }
+
+        function changeTextSize() {
+            textSize += 2;
+            document.body.style.fontSize = textSize + 'px';
+        }
+
+        function decreaseTextSize() {
+            textSize -= 2;
+            document.body.style.fontSize = textSize + 'px';
+        }
+
+        function showAlert() {
+            alert('This is an alert message!');
+        }
+
+        function toggleMenu() {
+            const menu = document.querySelector('.navigation');
+            menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function printPage() {
+            window.print();
+        }
+
+        function copyToClipboard() {
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                alert('URL copied to clipboard!');
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+            });
+        }
+
+        function openGoogle() {
+            window.open('https://www.google.com', '_blank');
+        }
+
+        function openYouTube() {
+            window.open('https://www.youtube.com', '_blank');
+        }
+
+        function openTwitter() {
+            window.open('https://www.twitter.com', '_blank');
+        }
+
+        function openFacebook() {
+            window.open('https://www.facebook.com', '_blank');
+        }
+
+        function openReddit() {
+            window.open('https://www.reddit.com', '_blank');
+        }
+
+        function displayDate() {
+            alert(new Date().toLocaleDateString());
+        }
+
+        function displayTime() {
+            alert(new Date().toLocaleTimeString());
+        }
+
+        function hidePage() {
+            document.body.style.display = 'none';
+        }
+
+        function showPage() {
+            document.body.style.display = 'block';
+        }
+
+        function alertUser() {
+            alert('User has been alerted!');
+        }
+
+        function setCookie() {
+            document.cookie = "username=John Doe; expires=Fri, 31 Dec 9999 23:59:59 GMT";
+            alert('Cookie has been set!');
+        }
+
+        function getCookie() {
+            alert(document.cookie);
+        }
+
+        function deleteCookie() {
+            document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+            alert('Cookie has been deleted!');
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+        }
+    </script>
+
+</body>
+</html>
